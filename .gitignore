@@ -62,6 +62,21 @@ captures/
 
 # IntelliJ
 *.iml
+
+SportBuff/.idea/workspace.xml
+SportBuff/.idea/tasks.xml
+SportBuff/.idea/gradle.xml
+SportBuff/.idea/assetWizardSettings.xml
+SportBuff/.idea/dictionaries
+SportBuff/.idea/libraries
+SportBuff/.idea/caches
+SportBuff/.idea/modules.xml
+SportBuff/.idea/navEditor.xml
+SportBuff/.idea
+
+
+
+
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
