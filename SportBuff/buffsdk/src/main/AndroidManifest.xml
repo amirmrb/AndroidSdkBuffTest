@@ -2,4 +2,9 @@
     package="com.buffup.sdk" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:theme="@style/AppTheme">
+    <activity android:name="com.buffup.buffsdk.view.MockActivity"></activity>
+    </application>
 </manifest>
