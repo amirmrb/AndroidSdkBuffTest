@@ -1,6 +1,5 @@
 package com.buffup.buffsdk.repo
 
-import com.buffup.buffsdk.RemoteService
 import com.buffup.sdk.BuildConfig
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
