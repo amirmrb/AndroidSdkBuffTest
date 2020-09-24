@@ -9,6 +9,7 @@ import com.buffup.buffsdk.utils.getErrorMessage
 import com.buffup.buffsdk.utils.notifyObservers
 import com.buffup.sdk.BuildConfig
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 open class BaseViewModel : ViewModel() {
@@ -42,6 +43,10 @@ open class BaseViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()
+    }
+
+    fun delayDo(waitTimeInMillis: Long, function: (Unit) -> Unit) {
+        apiCall({delay(waitTimeInMillis)}, function)
     }
 }
 

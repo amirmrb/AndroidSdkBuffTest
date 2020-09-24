@@ -6,7 +6,7 @@ import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
 import com.buffup.buffsdk.repo.FakeBuffRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -78,22 +78,22 @@ class BuffViewModelTest {
             `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
             viewModel.buffViewData.observeForever(buffDataObserver)
-            delay(30_000)
+            advanceTimeBy(30_000)
             viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(2)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(60_000)
+            advanceTimeBy(60_000)
             viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(3)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(90_000)
+            advanceTimeBy(90_000)
             viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(4)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(120_000)
+            advanceTimeBy(120_000)
             viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(150_000)
+            advanceTimeBy(150_000)
             viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(200_000)
+            advanceTimeBy(200_000)
             viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
             viewModel.buffViewData.removeObserver(buffDataObserver)
@@ -133,17 +133,20 @@ class BuffViewModelTest {
     @ExperimentalCoroutinesApi
     @Test
     fun `on submitting answers viewModel freeze the question for 2 sec and shows the next question`() {
-        coroutinesRule.runBlockingTest {
+        val answer = fakeRepository.simpleFakeBuff().answers[1]
+        runBlocking {
             `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
             val currentSelectedQuestion = viewModel.currentQuestion
             viewModel.buffViewData.observeForever(buffDataObserver)
-            viewModel.submitAnswer(fakeRepository.simpleFakeBuff().answers[1])
-            verify(buffDataObserver, times(currentSelectedQuestion))
-            delay(1_000)
-            verify(buffDataObserver, times(currentSelectedQuestion))
-            delay(2_000)
-            verify(buffDataObserver, times(currentSelectedQuestion + 1))
+            viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
+            verify(
+                buffDataObserver,
+                times(currentSelectedQuestion)
+            ).onChanged(fakeRepository.simpleFakeBuff())
+            viewModel.submitAnswer(answer)
+            verify(hideBuffDataObserver, atLeastOnce()).onChanged(Unit)
+            verify(buffDataObserver, times(2)).onChanged(fakeRepository.simpleFakeBuff())
             viewModel.buffViewData.removeObserver(buffDataObserver)
         }
     }
@@ -159,9 +162,18 @@ class BuffViewModelTest {
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `load next question if it is less than 6`() {
-
+        coroutinesRule.runBlockingTest {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
+            viewModel = BuffViewModel(realRepository)
+            viewModel.buffViewData.observeForever(buffDataObserver)
+            for (i in 0..10) {
+                viewModel.loadNextQuestion()
+            }
+            verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
+        }
     }
 
     @Test

@@ -1,6 +1,5 @@
 package com.buffup.buffsdk.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.buffup.buffsdk.IQuestionOverVideo
 import com.buffup.buffsdk.IdealStatus
@@ -8,7 +7,8 @@ import com.buffup.buffsdk.Status
 import com.buffup.buffsdk.model.response.Answer
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
-import com.buffup.sdk.BuildConfig
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 
 class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
@@ -24,11 +24,12 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
 
     override var status: Status = IdealStatus
     override fun initialize() {
-      loadNextQuestion()
+        loadNextQuestion()
     }
 
     override fun loadNextQuestion() {
-        currentQuestion ++
+        hideBuffViewData.value = Unit
+        currentQuestion++
         if (currentQuestion <= 5) {
             apiCall({ repository.getBuff(currentQuestion) }, {
                 buffViewData.value = it
@@ -41,7 +42,11 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
     }
 
     override fun submitAnswer(answer: Answer) {
-        TODO("Not yet implemented")
+        // todo send answer to every where it should go
+       runBlocking {
+           delay(2000)
+           loadNextQuestion()
+       }
     }
 
     override fun close() {

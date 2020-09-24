@@ -19,6 +19,7 @@ import com.buffup.buffsdk.repo.BuffRepository
 import com.buffup.buffsdk.utils.BaseItemAdapter
 import com.buffup.buffsdk.utils.ConnectivityChecker
 import com.buffup.buffsdk.utils.SharedTexts
+import com.buffup.buffsdk.utils.clear
 import com.buffup.buffsdk.view.adapter.AnswerItem
 import com.buffup.buffsdk.view.adapter.QuestionItem
 import com.buffup.buffsdk.view.adapter.SenderItem
@@ -36,7 +37,7 @@ class QuestionOverVideo @JvmOverloads constructor(
     lateinit var videoView: VideoView
 
     private lateinit var viewModel: BuffViewModel
-    private lateinit var buffView : View
+    private lateinit var buffView: View
     private val adapter = BaseItemAdapter()
 
     init {
@@ -47,7 +48,10 @@ class QuestionOverVideo @JvmOverloads constructor(
             showQuestion(it)
         })
         viewModel.hideBuffViewData.observe(activity, Observer {
-            it?.let { hideQuestion() }
+            it?.let {
+                hideQuestion()
+                viewModel.hideBuffViewData.clear()
+            }
         })
         SharedTexts.context = context
         ConnectivityChecker.appContext = context
@@ -67,7 +71,8 @@ class QuestionOverVideo @JvmOverloads constructor(
 
     fun show() {
         val videoPlayerParent = videoView.parent as ViewGroup
-        val questionView = LayoutInflater.from(context).inflate(R.layout.buff_view, videoPlayerParent, false)
+        val questionView =
+            LayoutInflater.from(context).inflate(R.layout.buff_view, videoPlayerParent, false)
         val params = LayoutParams(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
@@ -77,12 +82,10 @@ class QuestionOverVideo @JvmOverloads constructor(
             videoPlayerParent.addView(questionView, params)
             videoPlayerParent.requestLayout()
             videoPlayerParent.invalidate()
-        }
-        else if (videoPlayerParent is ConstraintLayout) {
+        } else if (videoPlayerParent is ConstraintLayout) {
             TODO("not implemented yet !")
         }
         questionView.recycler.layoutManager = LinearLayoutManager(context)
         questionView.recycler.adapter = adapter
     }
-
 }
