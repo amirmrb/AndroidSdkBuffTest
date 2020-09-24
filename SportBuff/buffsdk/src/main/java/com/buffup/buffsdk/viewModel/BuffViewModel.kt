@@ -18,17 +18,14 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
     val hideBuffViewData = MutableLiveData<Unit?>()
     val buffViewData = MutableLiveData<BuffViewData>().apply { }
 
-    init {
-        initialize()
-    }
-
     override var status: Status = IdealStatus
     override fun initialize() {
         loadNextQuestion()
     }
 
     override fun loadNextQuestion() {
-        hideBuffViewData.value = Unit
+        if (currentQuestion > 0)
+            hideBuffViewData.value = Unit
         currentQuestion++
         if (currentQuestion <= 5) {
             apiCall({ repository.getBuff(currentQuestion) }, {
@@ -51,6 +48,7 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
 
     override fun close() {
         hideBuffViewData.value = Unit
+        loadNextQuestion()
     }
 
     override fun onQuestionTimeFinished() {

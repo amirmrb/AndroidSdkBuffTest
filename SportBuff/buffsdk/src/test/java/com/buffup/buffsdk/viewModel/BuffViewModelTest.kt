@@ -38,7 +38,7 @@ class BuffViewModelTest {
 
     @Mock
     lateinit var realRepository: BuffRepository
-    val fakeRepository = FakeBuffRepository()
+    private val fakeRepository = FakeBuffRepository()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -77,6 +77,7 @@ class BuffViewModelTest {
         coroutinesRule.runBlockingTest {
             `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
+            viewModel.initialize()
             viewModel.buffViewData.observeForever(buffDataObserver)
             advanceTimeBy(30_000)
             viewModel.onQuestionTimeFinished()
@@ -137,6 +138,7 @@ class BuffViewModelTest {
         runBlocking {
             `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
+            viewModel.initialize()
             val currentSelectedQuestion = viewModel.currentQuestion
             viewModel.buffViewData.observeForever(buffDataObserver)
             viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
@@ -155,7 +157,6 @@ class BuffViewModelTest {
     @Test
     fun `on closing buff viewModel hide the buff`() {
         coroutinesRule.runBlockingTest {
-            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
             viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
             viewModel.close()

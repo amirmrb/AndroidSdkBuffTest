@@ -36,7 +36,7 @@ open class BaseViewModel : ViewModel() {
                             exit = defaultExitAction)
                     showErrorMutableLiveData.notifyObservers()
                 }) {
-            result.invoke(block.invoke())
+                result.invoke(block.invoke())
         }.start()
     }
 
