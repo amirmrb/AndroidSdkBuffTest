@@ -56,7 +56,7 @@ class QuestionOverVideo @JvmOverloads constructor(
     private fun showQuestion(bvd: BuffViewData) {
         adapter.clear()
         adapter.adapterData.add(SenderItem(bvd))
-        adapter.adapterData.add(QuestionItem(bvd), viewModel::onQuestionTimeFinished)
+        adapter.adapterData.add(QuestionItem(bvd, viewModel::onQuestionTimeFinished))
         bvd.answers.forEach { adapter.adapterData.add(AnswerItem(it, viewModel::submitAnswer)) }
     }
 

@@ -75,70 +75,93 @@ class BuffViewModelTest {
     @Test
     fun `viewModel loads other questions after loading first question with 30 seconds delay`() {
         coroutinesRule.runBlockingTest {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
-            viewModel.initialize()
             viewModel.buffViewData.observeForever(buffDataObserver)
-            delay(30000)
+            delay(30_000)
+            viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(2)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(60000)
+            delay(60_000)
+            viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(3)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(90000)
+            delay(90_000)
+            viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(4)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(120000)
+            delay(120_000)
+            viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(150000)
+            delay(150_000)
+            viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
-            delay(200000)
+            delay(200_000)
+            viewModel.onQuestionTimeFinished()
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
             viewModel.buffViewData.removeObserver(buffDataObserver)
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `viewModel listens to timer to hide the current question`() {
-        viewModel = BuffViewModel(realRepository)
-        viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
-        viewModel.onQuestionTimeFinished()
-        verify(hideBuffDataObserver).onChanged(Unit)
-        viewModel.buffViewData.removeObserver(buffDataObserver)
+        coroutinesRule.runBlockingTest {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
+            viewModel = BuffViewModel(realRepository)
+            viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
+            viewModel.onQuestionTimeFinished()
+            verify(hideBuffDataObserver).onChanged(Unit)
+            viewModel.buffViewData.removeObserver(buffDataObserver)
+        }
     }
 
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `viewModel listens to timer to show next question`() {
-        viewModel = BuffViewModel(realRepository)
-        viewModel.buffViewData.observeForever(buffDataObserver)
-        viewModel.onQuestionTimeFinished()
-        verify(buffDataObserver, times(viewModel.currentQuestion))
-        viewModel.buffViewData.removeObserver(buffDataObserver)
+        coroutinesRule.runBlockingTest {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
+            viewModel = BuffViewModel(realRepository)
+            viewModel.buffViewData.observeForever(buffDataObserver)
+            viewModel.onQuestionTimeFinished()
+            verify(
+                buffDataObserver,
+                times(viewModel.currentQuestion)
+            ).onChanged(fakeRepository.simpleFakeBuff())
+            viewModel.buffViewData.removeObserver(buffDataObserver)
+        }
     }
 
     @ExperimentalCoroutinesApi
     @Test
     fun `on submitting answers viewModel freeze the question for 2 sec and shows the next question`() {
         coroutinesRule.runBlockingTest {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
             val currentSelectedQuestion = viewModel.currentQuestion
             viewModel.buffViewData.observeForever(buffDataObserver)
             viewModel.submitAnswer(fakeRepository.simpleFakeBuff().answers[1])
             verify(buffDataObserver, times(currentSelectedQuestion))
-            delay(1000)
+            delay(1_000)
             verify(buffDataObserver, times(currentSelectedQuestion))
-            delay(2000)
+            delay(2_000)
             verify(buffDataObserver, times(currentSelectedQuestion + 1))
             viewModel.buffViewData.removeObserver(buffDataObserver)
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `on closing buff viewModel hide the buff`() {
-        viewModel = BuffViewModel(realRepository)
-        viewModel.close()
-        verify(hideBuffDataObserver).onChanged(Unit)
+        coroutinesRule.runBlockingTest {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
+            viewModel = BuffViewModel(realRepository)
+            viewModel.close()
+            verify(hideBuffDataObserver).onChanged(Unit)
+        }
     }
 
     @Test
-    fun loadQuestion() {
+    fun `load next question if it is less than 6`() {
+
     }
 
     @Test
