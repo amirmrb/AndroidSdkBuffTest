@@ -16,14 +16,6 @@ class QuestionOverVideoTest {
             launchActivity = false
         )
 
-    @Before
-    fun setUp() {
-    }
-
-    @After
-    fun tearDown() {
-    }
-
     @Test
     fun getStatus() {
     }

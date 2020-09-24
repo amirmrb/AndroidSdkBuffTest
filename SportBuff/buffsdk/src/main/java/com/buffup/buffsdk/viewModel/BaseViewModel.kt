@@ -8,15 +8,18 @@ import com.buffup.buffsdk.utils.getErrorCode
 import com.buffup.buffsdk.utils.getErrorMessage
 import com.buffup.buffsdk.utils.notifyObservers
 import com.buffup.sdk.BuildConfig
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 open class BaseViewModel : ViewModel() {
-    private val showErrorMutableLiveData = MutableLiveData<RetryExceptionModel>()
+    val defaultExitAction = {}
+    val defaultApiMode = ApiCallMode.ForceWithRetry()
+    val showErrorMutableLiveData = MutableLiveData<ErrorModelWithRetryAction>()
 
     fun <T : Any?> apiCall(
         block: suspend () -> T,
         result: (T) -> Unit,
-        mode: ApiCallMode = ApiCallMode.ForceWithRetry()
+        mode: ApiCallMode = defaultApiMode
     ) {
         viewModelScope.launch(viewModelScope.coroutineContext +
                 exceptionHandler(block) { _, throwable, retryBlock ->
@@ -25,15 +28,20 @@ open class BaseViewModel : ViewModel() {
                     val code = getErrorCode(throwable)
                     val message = getErrorMessage(code, throwable)
                     showErrorMutableLiveData.value =
-                        RetryExceptionModel(code = code,
+                        ErrorModelWithRetryAction(code = code,
                             message = message,
                             block = { apiCall(block, result, mode) },
                             retryMode = mode,
-                            exit = {})
+                            exit = defaultExitAction)
                     showErrorMutableLiveData.notifyObservers()
                 }) {
             result.invoke(block.invoke())
         }.start()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 }
 

@@ -9,6 +9,8 @@ import com.buffup.buffsdk.IQuestionOverVideo
 import com.buffup.buffsdk.IdealStatus
 import com.buffup.buffsdk.Status
 import com.buffup.buffsdk.model.response.Answer
+import com.buffup.buffsdk.utils.ConnectivityChecker
+import com.buffup.buffsdk.utils.SharedTexts
 
 class QuestionOverVideo @JvmOverloads constructor(
     context: Context,
@@ -16,6 +18,11 @@ class QuestionOverVideo @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attributeSet, defStyleAttr),
     IQuestionOverVideo<Answer> {
+
+    init {
+        SharedTexts.context = context
+        ConnectivityChecker.appContext = context
+    }
 
     lateinit var videoView: VideoView
 
@@ -25,7 +32,7 @@ class QuestionOverVideo @JvmOverloads constructor(
         TODO("Not yet implemented")
     }
 
-    override fun start() {
+    override fun loadQuestion(questionNumber: Int) {
         TODO("Not yet implemented")
     }
 

@@ -1,5 +1,6 @@
 package com.buffup.buffsdk.repo
 
+import com.buffup.buffsdk.model.response.Answer
 import com.buffup.buffsdk.model.response.BuffResponse
 import com.buffup.buffsdk.model.response.Result
 import com.buffup.buffsdk.utils.PRE_REQUEST_URL

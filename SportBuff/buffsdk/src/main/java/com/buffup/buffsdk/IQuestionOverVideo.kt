@@ -3,7 +3,7 @@ package com.buffup.buffsdk
 interface IQuestionOverVideo<T> {
     var status: Status
     fun init()
-    fun start()
+    fun loadQuestion(questionNumber: Int)
     fun getRemainingTime(): Long
     fun submitAnswer(answer: T)
     fun close()

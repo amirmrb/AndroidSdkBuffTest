@@ -1,6 +1,6 @@
 package com.buffup.buffsdk.viewModel
 
-data class RetryExceptionModel(
+data class ErrorModelWithRetryAction(
     val code: Int,
     val message: String,
     val block: () -> Unit,
