@@ -10,10 +10,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 class FakeBuffRepository {
-    private val fakeData = Gson().fromJson<BuffResponse<Result>>(
+    val fakeResponse = Gson().fromJson<BuffResponse<Result>>(
         str,
         TypeToken.getParameterized(BuffResponse::class.java, Result::class.java).type
-    ).result.run {
+    )
+    private val fakeData = fakeResponse.result.run {
         BuffViewData(
             this.answers,
             AuthorData("${this.author.firstName} ${this.author.lastName}", this.author.image),
