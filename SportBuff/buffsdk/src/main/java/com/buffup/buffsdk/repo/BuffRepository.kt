@@ -1,5 +1,5 @@
 package com.buffup.buffsdk.repo
 
-class repository {
+class Repository {
     suspend fun getBuff(buffId: Int) = RetrofitProvider.getRemoteService().getBuff(buffId)
 }
