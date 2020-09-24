@@ -50,7 +50,7 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
     }
 
     override fun close() {
-        TODO("Not yet implemented")
+        hideBuffViewData.value = Unit
     }
 
     override fun onQuestionTimeFinished() {

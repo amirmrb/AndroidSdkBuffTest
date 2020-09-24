@@ -157,8 +157,10 @@ class BuffViewModelTest {
         coroutinesRule.runBlockingTest {
             `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
+            viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
             viewModel.close()
-            verify(hideBuffDataObserver).onChanged(Unit)
+            verify(hideBuffDataObserver, atLeastOnce()).onChanged(Unit)
+            viewModel.hideBuffViewData.removeObserver(hideBuffDataObserver)
         }
     }
 
@@ -174,17 +176,5 @@ class BuffViewModelTest {
             }
             verify(buffDataObserver, times(5)).onChanged(fakeRepository.simpleFakeBuff())
         }
-    }
-
-    @Test
-    fun getRemainingTime() {
-    }
-
-    @Test
-    fun submitAnswer() {
-    }
-
-    @Test
-    fun close() {
     }
 }
