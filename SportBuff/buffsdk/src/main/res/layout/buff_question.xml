@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/questionText"
         android:layout_width="wrap_content"
+        android:maxWidth="@dimen/buff_size_9_5"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:padding="18dp"

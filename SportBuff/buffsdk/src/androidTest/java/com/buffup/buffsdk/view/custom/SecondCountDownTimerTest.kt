@@ -1,11 +1,11 @@
-package com.buffup.buffsdk.view.view.custom
+package com.buffup.buffsdk.view.custom
 
 import android.os.Handler
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.buffup.buffsdk.view.MockActivity
 import com.buffup.buffsdk.view.custom.SecondCountDownTimer
-import com.buffup.buffsdk.view.utils.lazyActivityScenarioRule
+import com.buffup.buffsdk.utils.lazyActivityScenarioRule
 import com.buffup.sdk.R
 import junit.framework.Assert.assertEquals
 import org.junit.Before

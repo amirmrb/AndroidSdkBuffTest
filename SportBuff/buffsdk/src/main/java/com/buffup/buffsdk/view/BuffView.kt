@@ -28,7 +28,7 @@ import com.buffup.buffsdk.viewModel.BuffViewModel
 import com.buffup.sdk.R
 import kotlinx.android.synthetic.main.buff_view.view.*
 
-class QuestionOverVideo @JvmOverloads constructor(
+class BuffView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -81,7 +81,7 @@ class QuestionOverVideo @JvmOverloads constructor(
         buffView =
             LayoutInflater.from(context).inflate(R.layout.buff_view, videoPlayerParent, false)
         val params = LayoutParams(
-            LayoutParams.WRAP_CONTENT,
+            resources.getDimensionPixelSize(R.dimen.buff_size_10),
             LayoutParams.WRAP_CONTENT
         )
         if (videoPlayerParent is FrameLayout) {
