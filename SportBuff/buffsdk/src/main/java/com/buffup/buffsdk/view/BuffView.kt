@@ -7,14 +7,13 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.buffup.buffsdk.IdealStatus
-import com.buffup.buffsdk.Status
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
 import com.buffup.buffsdk.utils.BaseItemAdapter
@@ -34,10 +33,9 @@ class BuffView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attributeSet, defStyleAttr) {
 
-    var status: Status = IdealStatus
     lateinit var videoView: VideoView
 
-    private lateinit var viewModel: BuffViewModel
+    private val viewModel: BuffViewModel
     private lateinit var buffView: View
     private val adapter = BaseItemAdapter()
 
@@ -62,7 +60,11 @@ class BuffView @JvmOverloads constructor(
 
     private fun showQuestion(bvd: BuffViewData) {
         if (::buffView.isInitialized) // fixme
+        {
+            val animation = AnimationUtils.loadAnimation(context, R.anim.entry_anim)
+            buffView.startAnimation(animation)
             buffView.visibility = View.VISIBLE
+        }
         adapter.clear()
         adapter.adapterData.add(SenderItem(bvd, viewModel::close))
         adapter.adapterData.add(QuestionItem(bvd, viewModel::onQuestionTimeFinished))
@@ -72,7 +74,11 @@ class BuffView @JvmOverloads constructor(
 
     private fun hideQuestion() {
         if (::buffView.isInitialized) // fixme
+        {
             buffView.visibility = View.GONE
+            val animation = AnimationUtils.loadAnimation(context, R.anim.exit_anim)
+            buffView.startAnimation(animation)
+        }
     }
 
 

@@ -1,9 +1,7 @@
 package com.buffup.buffsdk.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import com.buffup.buffsdk.IQuestionOverVideo
-import com.buffup.buffsdk.IdealStatus
-import com.buffup.buffsdk.Status
+import com.buffup.buffsdk.IBuff
 import com.buffup.buffsdk.model.response.Answer
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
@@ -12,13 +10,12 @@ import kotlinx.coroutines.runBlocking
 
 
 class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
-    IQuestionOverVideo<Answer> {
+    IBuff<Answer> {
 
     var currentQuestion = 0
     val hideBuffViewData = MutableLiveData<Unit?>()
     val buffViewData = MutableLiveData<BuffViewData>().apply { }
 
-    override var status: Status = IdealStatus
     override fun initialize() {
         loadNextQuestion()
     }
@@ -32,10 +29,6 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
                 buffViewData.value = it
             })
         }
-    }
-
-    override fun getRemainingTime(): Long {
-        TODO("Not yet implemented")
     }
 
     override fun submitAnswer(answer: Answer) {
