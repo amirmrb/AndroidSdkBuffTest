@@ -8,4 +8,8 @@
     <color name="light_overlay">#A6FFFFFF</color>
     <color name="test_color_dark">#31323A</color>
     <color name="test_color_light">#FFFFFF</color>
+
+
+    <color name="progressColor">#FFFFFF</color>
+    <color name="progressBackgroundColor">#95959580</color>
 </resources>

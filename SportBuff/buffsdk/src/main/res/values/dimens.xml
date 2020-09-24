@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="buff_margin_left">32dp</dimen>
+    <dimen name="buff_size_0_5">4dp</dimen>
+    <dimen name="buff_size_2">16dp</dimen>
+    <dimen name="buff_size_3_5">27dp</dimen>
+    <dimen name="buff_size_4">32dp</dimen>
+    <dimen name="buff_size_6">60dp</dimen>
+    <dimen name="buff_size_9_5">340dp</dimen>
+    <dimen name="buff_size_10">400dp</dimen>
 </resources>

@@ -15,14 +15,14 @@
         tools:ignore="RtlHardcoded">
 
         <ImageView
-            android:id="@+id/sender_image"
+            android:id="@+id/senderImage"
             android:layout_width="27dp"
             android:layout_height="27dp"
             android:layout_gravity="center_vertical"
             android:padding="4dp" />
 
         <TextView
-            android:id="@+id/sender_name"
+            android:id="@+id/senderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -32,7 +32,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/buff_close"
+        android:id="@+id/buffClose"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_alignParentEnd="true"

@@ -7,8 +7,9 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/question_text"
+        android:id="@+id/questionText"
         android:layout_width="wrap_content"
+        android:maxWidth="@dimen/buff_size_9_5"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:padding="18dp"
@@ -16,29 +17,9 @@
         android:textStyle="bold"
         tools:text="Some question " />
 
-    <FrameLayout
-        android:layout_width="32dp"
-        android:layout_height="32dp">
-
-        <ProgressBar
-            android:id="@+id/question_time_progress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:indeterminate="false"
-            android:indeterminateDuration="1"
-            android:max="100"
-            android:progress="0" />
-
-        <TextView
-            android:id="@+id/question_time"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/test_color_light"
-            android:textStyle="bold"
-            tools:text="14" />
-
-    </FrameLayout>
+    <com.buffup.buffsdk.view.custom.CountDownCircularProgressView
+        android:id="@+id/circularCountDownProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
