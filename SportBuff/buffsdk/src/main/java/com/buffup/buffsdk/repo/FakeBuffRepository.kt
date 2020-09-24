@@ -2,6 +2,7 @@ package com.buffup.buffsdk.repo
 
 import com.buffup.buffsdk.model.response.BuffResponse
 import com.buffup.buffsdk.model.response.Result
+import com.buffup.buffsdk.model.view.AuthorData
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -15,10 +16,10 @@ class FakeBuffRepository {
     ).result.run {
         BuffViewData(
             this.answers,
-            this.author,
+            AuthorData("${this.author.firstName} ${this.author.lastName}", this.author.image),
             this.id,
             this.question,
-            this.time_to_show
+            this.timeToShow
         )
     }
 

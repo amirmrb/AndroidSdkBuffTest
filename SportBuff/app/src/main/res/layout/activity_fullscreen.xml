@@ -9,19 +9,20 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
 
-    <com.buffup.sdk.ui.BuffView
-        android:id="@+id/buff_view"
+    <com.buffup.buffsdk.view.QuestionOverVideo
+        android:id="@+id/buffView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <VideoView
-        android:id="@+id/video"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:textSize="50sp"
-        android:textStyle="bold" />
 
-    </com.buffup.sdk.ui.BuffView>
+        <VideoView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+    </com.buffup.buffsdk.view.QuestionOverVideo>
 
 </FrameLayout>

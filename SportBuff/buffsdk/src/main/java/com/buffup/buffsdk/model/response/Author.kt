@@ -1,7 +1,7 @@
 package com.buffup.buffsdk.model.response
 
 data class Author(
-    val first_name: String,
+    val firstName: String,
     val image: String,
-    val last_name: String
+    val lastName: String
 )

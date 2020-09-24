@@ -47,7 +47,7 @@ class BuffViewModelTest {
             `when`(realRepository.getBuff(1)).thenReturn(fakeRepository.simpleFakeBuff())
             viewModel = BuffViewModel(realRepository)
             viewModel.buffViewData.observeForever(buffDataObserver)
-            viewModel.init()
+            viewModel.initialize()
             verify(buffDataObserver).onChanged(fakeRepository.simpleFakeBuff())
             viewModel.buffViewData.removeObserver(buffDataObserver)
         }
@@ -62,7 +62,7 @@ class BuffViewModelTest {
             viewModel = BuffViewModel(realRepository)
             viewModel.buffViewData.observeForever(buffDataObserver)
             viewModel.showErrorMutableLiveData.observeForever(errorObserver)
-            viewModel.init()
+            viewModel.initialize()
             verify(errorObserver, atLeastOnce()).onChanged(
                 ArgumentMatchers.isA(ErrorModelWithRetryAction::class.java)
             )
@@ -76,7 +76,7 @@ class BuffViewModelTest {
     fun `viewModel loads other questions after loading first question with 30 seconds delay`() {
         coroutinesRule.runBlockingTest {
             viewModel = BuffViewModel(realRepository)
-            viewModel.init()
+            viewModel.initialize()
             viewModel.buffViewData.observeForever(buffDataObserver)
             delay(30000)
             verify(buffDataObserver, times(2)).onChanged(fakeRepository.simpleFakeBuff())
@@ -98,7 +98,7 @@ class BuffViewModelTest {
     fun `viewModel listens to timer to hide the current question`() {
         viewModel = BuffViewModel(realRepository)
         viewModel.hideBuffViewData.observeForever(hideBuffDataObserver)
-        viewModel.onFinishedTime()
+        viewModel.onQuestionTimeFinished()
         verify(hideBuffDataObserver).onChanged(Unit)
         viewModel.buffViewData.removeObserver(buffDataObserver)
     }
@@ -108,7 +108,7 @@ class BuffViewModelTest {
     fun `viewModel listens to timer to show next question`() {
         viewModel = BuffViewModel(realRepository)
         viewModel.buffViewData.observeForever(buffDataObserver)
-        viewModel.onFinishedTime()
+        viewModel.onQuestionTimeFinished()
         verify(buffDataObserver, times(viewModel.currentQuestion))
         viewModel.buffViewData.removeObserver(buffDataObserver)
     }

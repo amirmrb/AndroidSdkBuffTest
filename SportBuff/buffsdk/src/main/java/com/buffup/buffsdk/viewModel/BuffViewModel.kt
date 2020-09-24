@@ -17,10 +17,11 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
     val buffViewData = MutableLiveData<BuffViewData>().apply { }
 
     init {
+        initialize()
     }
 
     override var status: Status = IdealStatus
-    override fun init() {
+    override fun initialize() {
         apiCall({ repository.getBuff(1) }, {
             buffViewData.value = it
         })
@@ -42,7 +43,7 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
         TODO("Not yet implemented")
     }
 
-    fun onFinishedTime() {
+    override fun onQuestionTimeFinished() {
         TODO("Not yet implemented")
     }
 

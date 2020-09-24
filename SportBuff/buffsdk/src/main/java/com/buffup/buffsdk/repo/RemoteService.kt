@@ -8,6 +8,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RemoteService {
-    @GET("${PRE_REQUEST_URL}/buffs/{buffId}")
+    @GET("${PRE_REQUEST_URL}buffs/{buffId}")
     suspend fun getBuff(@Path("buffId") buffId: Int): BuffResponse<Result>
 }

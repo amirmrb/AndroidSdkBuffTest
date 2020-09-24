@@ -44,3 +44,5 @@ object ConnectivityChecker {
         return networkInfo?.isConnected == true //FIXME: fix deprecated
     }
 }
+
+
