@@ -2,7 +2,6 @@ package com.buffup.buffsdk.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
-import com.buffup.buffsdk.utils.BaseItemAdapter
-import com.buffup.buffsdk.utils.ConnectivityChecker
-import com.buffup.buffsdk.utils.SharedTexts
-import com.buffup.buffsdk.utils.clear
+import com.buffup.buffsdk.utils.*
 import com.buffup.buffsdk.view.adapter.AnswerItem
 import com.buffup.buffsdk.view.adapter.QuestionItem
 import com.buffup.buffsdk.view.adapter.SenderItem
@@ -54,6 +50,15 @@ class BuffView @JvmOverloads constructor(
             it?.let {
                 hideQuestion()
                 viewModel.hideBuffViewData.clear()
+            }
+        })
+        viewModel.answerSelectedLiveData.observe(activity, Observer { answer ->
+            answer?.let {
+                val answerItem = adapter.adapterData[answer.position] as AnswerItem
+                answerItem.getAnswerData().isSelected = true
+                adapter.adapterData.removeAt(answer.position)
+                adapter.adapterData.add(answer.position, answerItem)
+                adapter.notifyItemChanged(answer.position)
             }
         })
     }

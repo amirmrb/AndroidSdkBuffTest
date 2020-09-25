@@ -2,6 +2,7 @@ package com.buffup.buffsdk.repo
 
 import com.buffup.buffsdk.model.response.BuffResponse
 import com.buffup.buffsdk.model.response.Result
+import com.buffup.buffsdk.model.view.AnswerData
 import com.buffup.buffsdk.model.view.AuthorData
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.google.gson.Gson
@@ -16,7 +17,7 @@ class FakeBuffRepository {
     )
     private val fakeData = fakeResponse.result.run {
         BuffViewData(
-            this.answers,
+            this.answers.map { AnswerData(it) },
             AuthorData("${this.author.firstName} ${this.author.lastName}", this.author.image),
             this.id,
             this.question,
