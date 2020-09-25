@@ -34,7 +34,6 @@ class BuffViewTest {
             val qov = BuffView(activity)
             qov.show()
             Espresso.onView(ViewMatchers.isRoot()).perform(waitFor(1000))
-            qov.status
         }
     }
 

@@ -15,6 +15,7 @@ class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
     var currentQuestion = 0
     val hideBuffViewData = MutableLiveData<Unit?>()
     val buffViewData = MutableLiveData<BuffViewData>().apply { }
+    val answerSelectedLiveData = MutableLiveData<Answer?>().apply { value = null }
 
     override fun initialize() {
         loadNextQuestion()

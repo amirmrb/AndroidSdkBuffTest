@@ -2,6 +2,7 @@ package com.buffup.buffsdk.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.buffup.buffsdk.model.response.Answer
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
 import com.buffup.buffsdk.repo.FakeBuffRepository
@@ -35,6 +36,9 @@ class BuffViewModelTest {
 
     @Mock
     lateinit var errorObserver: Observer<ErrorModelWithRetryAction>
+
+    @Mock
+    lateinit var answerSelectedObserver: Observer<Answer?>
 
     @Mock
     lateinit var realRepository: BuffRepository
@@ -150,6 +154,20 @@ class BuffViewModelTest {
             verify(hideBuffDataObserver, atLeastOnce()).onChanged(Unit)
             verify(buffDataObserver, times(2)).onChanged(fakeRepository.simpleFakeBuff())
             viewModel.buffViewData.removeObserver(buffDataObserver)
+        }
+    }
+
+    @Test
+    fun `on submitting answers selected answer ui should change`() {
+        val answer = fakeRepository.simpleFakeBuff().answers[1]
+        runBlocking {
+            `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
+            viewModel = BuffViewModel(realRepository)
+            viewModel.initialize()
+            viewModel.answerSelectedLiveData.observeForever(answerSelectedObserver)
+            viewModel.submitAnswer(answer)
+            verify(answerSelectedObserver, atLeastOnce()).onChanged(answer)
+            viewModel.answerSelectedLiveData.removeObserver(answerSelectedObserver)
         }
     }
 

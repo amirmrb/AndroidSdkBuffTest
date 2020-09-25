@@ -27,3 +27,15 @@ class CoroutinesTestRule : TestWatcher() {
         testCoroutineScope.runBlockingTest { block() }
 
 }
+
+
+
+fun solution(A: IntArray): Int {
+    for( a in 1.. A.max()!!) {
+        if (!A.contains(a) ){
+                println(a)
+                return a
+        }
+    }
+    return A.max()!!+1
+}
