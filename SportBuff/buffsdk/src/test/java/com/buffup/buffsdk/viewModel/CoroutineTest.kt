@@ -5,11 +5,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
 class CoroutinesTestRule : TestWatcher() {
-    private val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(dispatcher)
+    val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    val testCoroutineScope = TestCoroutineScope(dispatcher)
 
     override fun starting(description: Description?) {
         super.starting(description)
