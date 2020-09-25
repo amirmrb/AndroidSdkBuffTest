@@ -5,6 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
 class CoroutinesTestRule : TestWatcher() {
@@ -26,16 +27,4 @@ class CoroutinesTestRule : TestWatcher() {
     fun runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =
         testCoroutineScope.runBlockingTest { block() }
 
-}
-
-
-
-fun solution(A: IntArray): Int {
-    for( a in 1.. A.max()!!) {
-        if (!A.contains(a) ){
-                println(a)
-                return a
-        }
-    }
-    return A.max()!!+1
 }

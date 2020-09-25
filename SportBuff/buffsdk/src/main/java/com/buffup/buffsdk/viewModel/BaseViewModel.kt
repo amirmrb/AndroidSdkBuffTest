@@ -13,8 +13,10 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel() :
+    ViewModel() {
     val defaultExitAction = {}
     val defaultApiMode = ApiCallMode.ForceWithRetry()
     val showErrorMutableLiveData = MutableLiveData<ErrorModelWithRetryAction>()
@@ -56,3 +58,6 @@ open class BaseViewModel : ViewModel() {
     }
 }
 
+open class CoroutineContextProvider {
+    open val IO: CoroutineContext by lazy { Dispatchers.IO }
+}

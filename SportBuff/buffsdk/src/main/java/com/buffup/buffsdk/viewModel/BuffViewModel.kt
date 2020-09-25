@@ -2,16 +2,17 @@ package com.buffup.buffsdk.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import com.buffup.buffsdk.IBuff
-import com.buffup.buffsdk.model.response.Answer
 import com.buffup.buffsdk.model.view.AnswerData
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
 import com.buffup.buffsdk.utils.clear
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlin.coroutines.CoroutineContext
 
 
-class BuffViewModel(private val repository: BuffRepository) : BaseViewModel(),
+class BuffViewModel(
+    private val repository: BuffRepository
+) : BaseViewModel(),
     IBuff<AnswerData> {
 
     var currentQuestion = 0

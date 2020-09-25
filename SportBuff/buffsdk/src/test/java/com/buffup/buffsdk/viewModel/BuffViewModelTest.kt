@@ -2,16 +2,11 @@ package com.buffup.buffsdk.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import com.buffup.buffsdk.model.view.AnswerData
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
 import com.buffup.buffsdk.repo.FakeBuffRepository
-import io.mockk.coVerify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -139,10 +134,11 @@ class BuffViewModelTest {
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `on submitting answers viewModel freeze the question for 2 sec and shows the next question`() {
         val answer = fakeRepository.simpleFakeBuff().answers[1]
-        runBlocking {
+        coroutinesRule.runBlockingTest {
             `when`(realRepository.getBuff(ArgumentMatchers.anyInt())).then { fakeRepository.simpleFakeBuff() }
             viewModel = BuffViewModel(realRepository)
             viewModel.initialize()
@@ -154,10 +150,11 @@ class BuffViewModelTest {
                 times(currentSelectedQuestion)
             ).onChanged(fakeRepository.simpleFakeBuff())
             viewModel.submitAnswer(answer)
-
+            advanceTimeBy(1_000)
+            verify(buffDataObserver, times(1)).onChanged(fakeRepository.simpleFakeBuff())
+            advanceTimeBy(2_000)
             verify(hideBuffDataObserver, atLeastOnce()).onChanged(Unit)
             verify(buffDataObserver, times(2)).onChanged(fakeRepository.simpleFakeBuff())
-
             viewModel.buffViewData.removeObserver(buffDataObserver)
         }
     }
