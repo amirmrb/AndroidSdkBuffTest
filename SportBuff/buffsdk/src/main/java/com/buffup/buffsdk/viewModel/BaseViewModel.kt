@@ -57,7 +57,3 @@ open class BaseViewModel() :
         apiCall({ delay(waitTimeInMillis) }, function)
     }
 }
-
-open class CoroutineContextProvider {
-    open val IO: CoroutineContext by lazy { Dispatchers.IO }
-}
