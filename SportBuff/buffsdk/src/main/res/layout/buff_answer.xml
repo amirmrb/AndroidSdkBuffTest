@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/answerContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:background="@drawable/light_bg"
-    android:orientation="horizontal"
-    tools:ignore="RtlHardcoded">
+    android:visibility="visible"
+    app:layoutDescription="@xml/motion">
 
     <ImageView
         android:id="@+id/answerImage"
         android:layout_width="@dimen/buff_size_3_5"
         android:layout_height="@dimen/buff_size_3_5"
-        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/buff_size_0_5"
         android:src="@drawable/ic_generic_answer"
-        android:padding="@dimen/buff_size_0_5" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/answerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:padding="@dimen/buff_size_0_5"
         android:textColor="@color/test_color_dark"
-        android:textStyle="bold" />
-</LinearLayout>
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/answerImage"
+        app:layout_constraintStart_toEndOf="@+id/answerImage"
+        app:layout_constraintTop_toTopOf="@+id/answerImage" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

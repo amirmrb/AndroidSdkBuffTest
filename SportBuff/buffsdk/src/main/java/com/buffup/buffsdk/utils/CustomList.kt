@@ -12,5 +12,4 @@ class CustomList<T>(val onAddCall: (T) -> Unit) : ArrayList<T>() {
         }
         return super.addAll(elements)
     }
-
 }

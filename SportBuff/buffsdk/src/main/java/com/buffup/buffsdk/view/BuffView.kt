@@ -12,6 +12,7 @@ import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.buffup.buffsdk.model.view.BuffViewData
 import com.buffup.buffsdk.repo.BuffRepository
@@ -55,12 +56,19 @@ class BuffView @JvmOverloads constructor(
         viewModel.answerSelectedLiveData.observe(activity, Observer { answer ->
             answer?.let {
                 val answerItem = adapter.adapterData[answer.position] as AnswerItem
-                answerItem.getAnswerData().isSelected = true
-                adapter.adapterData.removeAt(answer.position)
-                adapter.adapterData.add(answer.position, answerItem)
-                adapter.notifyItemChanged(answer.position)
+                answerItem.getData().isSelected = true
+                val adapterData = adapter.adapterData
+                adapterData.removeAt(answer.position)
+                adapterData.add(answer.position, answerItem)
+                applyChangesToList(adapterData)
             }
         })
+    }
+
+    private fun applyChangesToList(adapterData: CustomList<BuffItem>) {
+        val diffResult =
+            DiffUtil.calculateDiff(BuffDiffUtil(adapter.adapterData, adapterData))
+        diffResult.dispatchUpdatesTo(adapter)
     }
 
     private fun showQuestion(bvd: BuffViewData) {
@@ -71,10 +79,11 @@ class BuffView @JvmOverloads constructor(
             buffView.visibility = View.VISIBLE
         }
         adapter.clear()
-        adapter.adapterData.add(SenderItem(bvd, viewModel::close))
-        adapter.adapterData.add(QuestionItem(bvd, viewModel::onQuestionTimeFinished))
-        bvd.answers.forEach { adapter.adapterData.add(AnswerItem(it, viewModel::submitAnswer)) }
-        adapter.notifyDataSetChanged()
+        val adapterData = adapter.adapterData
+        adapterData.add(SenderItem(bvd, viewModel::close))
+        adapterData.add(QuestionItem(bvd, viewModel::onQuestionTimeFinished))
+        bvd.answers.forEach { adapterData.add(AnswerItem(it, viewModel::submitAnswer)) }
+        applyChangesToList(adapterData)
     }
 
     private fun hideQuestion() {
